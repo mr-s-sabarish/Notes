@@ -262,6 +262,10 @@ body {
     font-size: 1.5rem;
   }
 
+  .input-group button {
+    padding: 6px 10px;
+  }
+
   .note-content h3 {
     font-size: 0.8rem;
   }
