@@ -240,7 +240,7 @@ body {
 }
 
 .clear-all button {
-  font-family: cursive;
+  font-family: 'Times New Roman', Times, serif;
   padding: 10px 20px;
   border: none;
   background-color: #dc3545;
