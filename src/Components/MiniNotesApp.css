@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Aclonica&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
 
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   font-family: "Times New Roman", Times, serif;
-  background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+  /* background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); */
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -27,7 +28,8 @@ body {
 }
 
 .header h1 {
-  font-family: "Playfair Display", serif;
+  font-family: "Noto Serif", serif;
+  font-style: italic;
   font-size: 2rem;
   color: hsla(0, 0%, 0%, 0.974);
   margin: 0;
@@ -93,9 +95,10 @@ body {
 }
 
 .notes-container h5 {
-  font-family: "Playfair Display", serif;
+  font-family: "Noto Serif", serif;
+  font-style: italic;
   font-size: 1rem;
-  color: lab(0% 0 0 / 0.851);
+  color: lch(36.57% 0.01 296.81 / 0.851);
   margin: 0 0 20px 0;
   text-align: center;
 }
@@ -118,11 +121,11 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 200px;
+  min-height: 250px;
 }
 
 .note-completed {
-  background: hwb(134 0% 67% / 0.373);
+  background: lab(53.98% 0 -0.01 / 0.373);
   color: hsla(0, 0%, 100%, 0.542);
   transition: all 0.3s ease-in-out;
 }
@@ -145,11 +148,11 @@ body {
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid hsl(0, 0%, 91%);
-  background-color: hsla(0, 0%, 98%, 0.154);
+  background-color: hsl(0, 0%, 98%);
 }
 
 .note-content h3 {
-  background-color: #7fc047;
+  background-color: #1b5e20;
   color: #fff;
   padding: 4px 8px 4px 8px;
   border-radius: 50px;
@@ -160,7 +163,7 @@ body {
 
 .note-content .completed {
   margin: 0 0 10px 0;
-  color: #ffffff;
+  color: #000000;
   font-size: 0.8rem;
 }
 
@@ -173,6 +176,11 @@ body {
 .note-text {
   padding: 10px 16px;
   flex-grow: 1;
+}
+
+.note-text .tagged-notes {
+  font-size: 0.8rem;
+  color: hwb(0 0% 100% / 0.7);
 }
 
 .note-text .note-text-p {

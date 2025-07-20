@@ -113,6 +113,7 @@ export default function MiniNotesApp() {
 
                 {/* Note Text */}
                 <div className="note-text">
+                  <p className="tagged-notes">Your Notes here,</p>
                   <p className="note-text-p">{note.text}</p>
                 </div>
 
