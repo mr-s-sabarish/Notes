@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import "./MiniNotesApp.css";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaCheckCircle } from "react-icons/fa";
 import { SiTicktick } from "react-icons/si";
-import { FaCheckCircle } from "react-icons/fa";
-import { FaNotesMedical } from "react-icons/fa6";
 import { HiClipboardDocumentCheck } from "react-icons/hi2";
 
 export default function MiniNotesApp() {
   const [notes, setNotes] = useState([]);
-  const [noteText, setNoteText] = useState("");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  
   const inputRef = useRef(null);
+  const messageRef = useRef(null);
 
   useEffect(() => {
     const stored = localStorage.getItem("notes");
@@ -21,11 +22,12 @@ export default function MiniNotesApp() {
   }, [notes]);
 
   const handleAddNote = () => {
-    if (noteText.trim() === "") return;
+    if (title.trim() === "" && message.trim() === "") return;
 
     const newNote = {
       id: Date.now(),
-      text: noteText,
+      title,
+      message,
       createdAt: new Date().toLocaleString("en-US", {
         day: "numeric",
         month: "short",
@@ -38,7 +40,8 @@ export default function MiniNotesApp() {
     };
 
     setNotes([newNote, ...notes]);
-    setNoteText("");
+    setTitle("");
+    setMessage("");
     inputRef.current.focus();
   };
 
@@ -47,10 +50,11 @@ export default function MiniNotesApp() {
   };
 
   const toggleCompleted = (id) => {
-    const updated = notes.map((note) =>
-      note.id === id ? { ...note, completed: !note.completed } : note
+    setNotes(
+      notes.map((note) =>
+        note.id === id ? { ...note, completed: !note.completed } : note
+      )
     );
-    setNotes(updated);
   };
 
   const handleClearAll = () => {
@@ -59,30 +63,29 @@ export default function MiniNotesApp() {
 
   return (
     <div className="notes-app">
-      {/* Header */}
       <div className="header">
         <h1>Mini Notes</h1>
-
-        <span>
-          <HiClipboardDocumentCheck className="note-icon" />
-        </span>
+        <HiClipboardDocumentCheck className="note-icon" />
       </div>
 
-      {/* Input */}
       <div className="input-group">
         <input
           ref={inputRef}
           type="text"
-          value={noteText}
-          onChange={(e) => setNoteText(e.target.value)}
-          placeholder="Type a note..."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Title of your note..."
         />
-        <button onClick={handleAddNote}>
-          <FaNotesMedical className="add-icon" />
-        </button>
+        <textarea
+          ref={messageRef}
+          rows={3}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Your message..."
+        />
+        <button onClick={handleAddNote}>Add Note</button>
       </div>
 
-      {/* No Notes Placeholder */}
       {notes.length === 0 ? (
         <div className="no-notes">
           <p>No notes yet...</p>
@@ -92,41 +95,41 @@ export default function MiniNotesApp() {
           <p>"Buy groceries for the week"</p>
         </div>
       ) : (
-        // Notes List
         <div className="notes-container">
           <h5>"One step at a time. Always forward..."</h5>
           <ul className="note-list">
-            {notes.map((note, ind) => (
+            {notes.map((note, index) => (
               <li
                 key={note.id}
                 className={`note-item ${
                   note.completed ? "note-completed" : "note-pending"
                 }`}
               >
-                {/* Note Content */}
                 <div className="note-content">
-                  <h3>{ind + 1}</h3>
-                  <p className={`${note.completed ? "completed" : "pending"} `}>
+                  <h3>{index + 1}</h3>
+                  <p className={note.completed ? "completed" : "pending"}>
                     {note.completed ? "Completed" : "Pending"}
                   </p>
                 </div>
 
-                {/* Note Text */}
                 <div className="note-text">
                   <p className="tagged-notes">Your Notes here,</p>
-                  <p className="note-text-p">{note.text}</p>
+                  <p className="note-text-p">
+                    <strong>Title: </strong>
+                    {note.title}
+                  </p>
+                  <p className="note-text-p">
+                    {" "}
+                    <strong>Message: </strong>
+                    {note.message}
+                  </p>
                 </div>
 
-                {/* Actions */}
                 <div className="note-actions">
-                  <div>
-                    <span className="timestamp">
-                      Created at : {note.createdAt}
-                    </span>
-                  </div>
-
+                  <span className="timestamp">
+                    Created at : {note.createdAt}
+                  </span>
                   <div className="button-group">
-                    {/* Complete Button */}
                     <button
                       className="complete-btn"
                       onClick={() => toggleCompleted(note.id)}
@@ -137,8 +140,6 @@ export default function MiniNotesApp() {
                         <SiTicktick className="tick-icon" />
                       )}
                     </button>
-
-                    {/* Delete Button */}
                     <button
                       className="delete-btn"
                       onClick={() => handleDeleteNote(note.id)}
@@ -153,7 +154,6 @@ export default function MiniNotesApp() {
         </div>
       )}
 
-      {/* Clear All Button */}
       {notes.length > 0 && (
         <div className="clear-all">
           <button onClick={handleClearAll}>Clear All</button>
